@@ -1,3 +1,3 @@
 class Vehicle < ApplicationRecord
-  validates :kind, presence: true
+  validates :kind, presence: true, uniqueness: true
 end
