@@ -29,11 +29,11 @@ RSpec.describe VehiclesController, type: :controller do
   # Vehicle. As you add validations to Vehicle, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { kind: 'Car' }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { kind: nil }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -43,7 +43,7 @@ RSpec.describe VehiclesController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      vehicle = Vehicle.create! valid_attributes
+      Vehicle.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(response).to be_success
     end
@@ -87,14 +87,14 @@ RSpec.describe VehiclesController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { kind: 'Truck'}
       }
 
       it "updates the requested vehicle" do
         vehicle = Vehicle.create! valid_attributes
         put :update, params: {id: vehicle.to_param, vehicle: new_attributes}, session: valid_session
         vehicle.reload
-        skip("Add assertions for updated state")
+        expect(vehicle.kind).to eq 'Truck'
       end
 
       it "renders a JSON response with the vehicle" do
