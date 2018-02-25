@@ -6,8 +6,13 @@ Built with Ruby 2.4.1
 
 ### Setup
 
-clone the application. Then run:
-```bundle install```
+```
+git clone --recurse-submodules git@github.com:discypher/vehicles.git
+
+bundle install
+rails db:migrate
+rails db:seed
+```
 
 ### Run Tests
 
