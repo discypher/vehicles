@@ -23,7 +23,7 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe ModelsController, type: :controller do
+RSpec.describe Api::V1::ModelsController, type: :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # Model. As you add validations to Model, be sure to
@@ -67,7 +67,7 @@ RSpec.describe ModelsController, type: :controller do
         post :create, params: { model: build_attributes(:model) }, session: valid_session
         expect(response).to have_http_status(:created)
         expect(response.content_type).to eq('application/json')
-        expect(response.location).to eq(model_url(Model.last))
+        expect(response.location).to eq(v1_model_url(Model.last))
       end
     end
 

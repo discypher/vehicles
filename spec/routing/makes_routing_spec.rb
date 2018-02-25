@@ -1,32 +1,32 @@
 require "rails_helper"
 
-RSpec.describe MakesController, type: :routing do
+RSpec.describe Api::V1::MakesController, type: :routing do
   describe "routing" do
 
     it "routes to #index" do
-      expect(:get => "/makes").to route_to("makes#index")
+      expect(:get => "/v1/makes").to route_to("api/v1/makes#index")
     end
 
 
     it "routes to #show" do
-      expect(:get => "/makes/1").to route_to("makes#show", :id => "1")
+      expect(:get => "/v1/makes/1").to route_to("api/v1/makes#show", :id => "1")
     end
 
 
     it "routes to #create" do
-      expect(:post => "/makes").to route_to("makes#create")
+      expect(:post => "/v1/makes").to route_to("api/v1/makes#create")
     end
 
     it "routes to #update via PUT" do
-      expect(:put => "/makes/1").to route_to("makes#update", :id => "1")
+      expect(:put => "/v1/makes/1").to route_to("api/v1/makes#update", :id => "1")
     end
 
     it "routes to #update via PATCH" do
-      expect(:patch => "/makes/1").to route_to("makes#update", :id => "1")
+      expect(:patch => "/v1/makes/1").to route_to("api/v1/makes#update", :id => "1")
     end
 
     it "routes to #destroy" do
-      expect(:delete => "/makes/1").to route_to("makes#destroy", :id => "1")
+      expect(:delete => "/v1/makes/1").to route_to("api/v1/makes#destroy", :id => "1")
     end
 
   end

@@ -23,7 +23,7 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe MakesController, type: :controller do
+RSpec.describe Api::V1::MakesController, type: :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # Make. As you add validations to Make, be sure to
@@ -70,7 +70,7 @@ RSpec.describe MakesController, type: :controller do
         post :create, params: {make: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:created)
         expect(response.content_type).to eq('application/json')
-        expect(response.location).to eq(make_url(Make.last))
+        expect(response.location).to eq(v1_make_url(Make.last))
       end
     end
 

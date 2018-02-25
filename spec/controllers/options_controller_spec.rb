@@ -23,7 +23,7 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe OptionsController, type: :controller do
+RSpec.describe Api::V1::OptionsController, type: :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # Option. As you add validations to Option, be sure to
@@ -47,7 +47,7 @@ RSpec.describe OptionsController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      option = Option.create! valid_attributes
+      Option.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(response).to be_success
     end
@@ -74,7 +74,7 @@ RSpec.describe OptionsController, type: :controller do
         post :create, params: {option: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:created)
         expect(response.content_type).to eq('application/json')
-        expect(response.location).to eq(option_url(Option.last))
+        expect(response.location).to eq(v1_option_url(Option.last))
       end
     end
 
