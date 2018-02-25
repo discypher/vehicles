@@ -23,7 +23,9 @@ model1 = Model.create(
     vehicle: vehicles.first,
     make: makes.first,
     base_cost: 25_000.00,
-    name: 'Model 3'}
+    name: 'Model 3',
+    year: 2015
+  }
 )
 
 model2 = Model.create(
@@ -31,7 +33,8 @@ model2 = Model.create(
     vehicle: vehicles.second,
     make: makes.second,
     base_cost: 30_000.00,
-    name: 'Tacoma'
+    name: 'Tacoma',
+    year: 2012
   }
 )
 
