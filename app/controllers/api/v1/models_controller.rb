@@ -2,6 +2,58 @@ module Api::V1
   class ModelsController < ApplicationController
     before_action :set_model, only: [:show, :update, :destroy]
 
+    #Swagger Docs
+    swagger_controller :models, "Model Management"
+
+    swagger_api :index do
+      summary "Fetches Models for a Specific Make."
+      notes "This requires the make id to be specified in the URL."
+      param :path, :make_id, :integer, :optional, "Make ID"
+      response :ok
+    end
+
+    swagger_api :show do
+      summary "Show a single Model."
+      notes "This retrieves a single model and it's attributes."
+      param :path, :id, :integer, :required, "Model ID"
+      response :ok
+      response :not_found
+    end
+
+    swagger_api :create do
+      summary "Creates a new Model"
+      notes "This endpoint adds a single new Model."
+      param :form, "model[vehicle_id]", :integer, :required, "Kind of Vehicle"
+      param :form, "model[make_id]", :integer, :required, "Manufacturer of Model"
+      param :form, "model[name]", :string, :required, "Name of Model"
+      param :form, "model[base_cost]", :float, :required, "Base Cost of Model"
+      param :form, "model[year]", :integer, :required, "Model year"
+      response :created
+      response :unprocessable_entity
+    end
+
+    swagger_api :update do
+      summary "Update a Model's Attributes."
+      notes "This allows you to change the attributes of a Model."
+      param :path, :id, :integer, :required, "Model ID"
+      param :form, "model[vehicle_id]", :integer, :required, "Kind of Vehicle"
+      param :form, "model[make_id]", :integer, :required, "Manufacturer of Model"
+      param :form, "model[name]", :string, :required, "Name of Model"
+      param :form, "model[base_cost]", :float, :required, "Base Cost of Model"
+      param :form, "model[year]", :integer, :required, "Model year"
+      response :ok
+      response :not_found
+      response :unprocessable_entity
+    end
+
+    swagger_api :destroy do
+      summary "Destroy a Model"
+      notes "This allows you to remove a Model from the application."
+      param :path, :id, :integer, :required, "Model ID"
+      response :no_content
+      response :not_found
+    end
+
     # GET /models
     def index
       @models = if(params[:make_id])
@@ -23,7 +75,7 @@ module Api::V1
       @model = Model.new(model_params)
 
       if @model.save
-        render json: @model, status: :created, location: @model
+        render json: @model, status: :created, location: v1_model_url(@model)
       else
         render json: @model.errors, status: :unprocessable_entity
       end

@@ -1,0 +1,4 @@
+[submodule "public/swagger-ui"]
+	path = public/swagger-ui
+	url = git@github.com:swagger-api/swagger-ui.git
+	branch = 2.x
