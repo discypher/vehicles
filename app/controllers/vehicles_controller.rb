@@ -3,7 +3,11 @@ class VehiclesController < ApplicationController
 
   # GET /vehicles
   def index
-    @vehicles = Vehicle.all
+    @vehicles = if (params[:make_id])
+                  Make.find(params[:make_id]).vehicles
+                else
+                  Vehicle.all
+                end
 
     render json: @vehicles
   end

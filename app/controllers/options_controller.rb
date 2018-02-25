@@ -3,8 +3,11 @@ class OptionsController < ApplicationController
 
   # GET /options
   def index
-    @options = Option.all
-
+    @options = if(params[:model_id])
+                 Model.find(params[:model_id]).options
+               else
+                 Option.all
+               end
     render json: @options
   end
 

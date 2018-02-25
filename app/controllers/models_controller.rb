@@ -3,7 +3,11 @@ class ModelsController < ApplicationController
 
   # GET /models
   def index
-    @models = Model.all
+    @models = if(params[:make_id])
+                Make.find(params[:make_id]).models
+              else
+                Model.all
+              end
 
     render json: @models
   end
