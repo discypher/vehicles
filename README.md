@@ -1,24 +1,38 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Ruby Version
 
-Things you may want to cover:
+Built with Ruby 2.4.1
 
-* Ruby version
+### Setup
 
-* System dependencies
+clone the application. Then run:
+```bundle install```
 
-* Configuration
+### Run Tests
 
-* Database creation
+```bundle exec rspec spec```
 
-* Database initialization
+### Run Application
 
-* How to run the test suite
+```bundle exec rails server```
 
-* Services (job queues, cache servers, search engines, etc.)
+### View Documentation
 
-* Deployment instructions
+```
+bundle exec rails server
+```
+Then point your browser to http://127.0.0.1:3000/docs
 
-* ...
+
+### Notes:
+
+Currently there are some issues with Rails 5 and the swagger-docs gem.
+Because of this, I have manually updated the nested routes that are
+not automatically generated due to these issues. Switching to a different
+documentation tool, or a Swagger documentation gem that has better support
+is the long term solution.
+
+
+There is a lot of functionality missing from this application currently. It
+is a work in progress.
