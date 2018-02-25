@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180224224459) do
+ActiveRecord::Schema.define(version: 20180225025717) do
 
   create_table "makes", force: :cascade do |t|
     t.string "manufacturer"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20180224224459) do
     t.float "base_cost"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "year"
     t.index ["make_id"], name: "index_models_on_make_id"
     t.index ["vehicle_id"], name: "index_models_on_vehicle_id"
   end

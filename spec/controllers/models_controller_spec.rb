@@ -35,7 +35,8 @@ RSpec.describe ModelsController, type: :controller do
       vehicle: car,
       make: make,
       base_cost: 10_000.00,
-      name: 'Cool Ride'
+      name: 'Cool Ride',
+      year: 2015
     }
   }
 
@@ -44,7 +45,8 @@ RSpec.describe ModelsController, type: :controller do
       vehicle: nil,
       make: nil,
       base_cost: nil,
-      name: nil
+      name: nil,
+      year: -1
     }
   }
 
