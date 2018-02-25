@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Make, type: :model do
   it { is_expected.to respond_to :manufacturer }
+  it { is_expected.to respond_to :models }
+  it { is_expected.to respond_to :vehicles }
 
   context 'manufacturer validations' do
     let(:make) { build :make }
@@ -18,6 +20,30 @@ RSpec.describe Make, type: :model do
 
     it 'cannot be duplicated' do
       expect(make2).not_to be_valid
+    end
+  end
+
+  context 'models' do
+    let(:model1) { create :model }
+    let(:model2) { create :model }
+    let(:make) { create :make }
+
+    it 'can be many' do
+      make.models << model1
+      make.models << model2
+      expect(make.models.count).to be 2
+    end
+  end
+
+  context 'vehicles' do
+    let(:model1) { create :model }
+    let(:model2) { create :model }
+    let(:make) { create :make }
+
+    it 'can be many' do
+      make.models << model1
+      make.models << model2
+      expect(make.vehicles.count).to be 2
     end
   end
 end
