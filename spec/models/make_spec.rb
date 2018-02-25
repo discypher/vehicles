@@ -14,7 +14,7 @@ RSpec.describe Make, type: :model do
 
   context 'that exists' do
     let!(:make) { create :make }
-    let(:make2) { build :make }
+    let(:make2) { build :make, manufacturer: make.manufacturer }
 
     it 'cannot be duplicated' do
       expect(make2).not_to be_valid

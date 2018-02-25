@@ -1,13 +1,13 @@
 FactoryBot.define do
   factory :vehicle do
-    kind 'Unknown'
+    sequence(:kind) { |n| "vehicle#{n}" }
 
     factory :car do
-      kind 'Car'
+      sequence(:kind) { |n| "car#{n}" }
     end
 
     factory :truck do
-      kind 'Truck'
+      sequence(:kind) { |n| "truck#{n}" }
     end
   end
 end

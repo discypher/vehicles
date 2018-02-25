@@ -11,8 +11,8 @@ RSpec.describe "Vehicles", type: :request do
 
     it "returns all of the vehicles" do
       get vehicles_path
-      expect(response.body).to include('Truck')
-      expect(response.body).to include('Car')
+      expect(response.body).to include(truck.kind)
+      expect(response.body).to include(car.kind)
     end
   end
 end

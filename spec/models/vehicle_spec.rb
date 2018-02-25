@@ -14,7 +14,7 @@ RSpec.describe Vehicle, type: :model do
 
   context 'that exists' do
     let!(:car) { create :car }
-    let(:car2) { build :car }
+    let(:car2) { build :car, kind: car.kind }
 
     it 'cannot be duplicated' do
       expect(car2).not_to be_valid

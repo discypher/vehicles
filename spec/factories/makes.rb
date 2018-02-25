@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :make do
-    manufacturer "Tesla"
+    sequence(:manufacturer) { |n| "Make#{n}" }
   end
 end
