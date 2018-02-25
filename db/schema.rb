@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180225025717) do
+ActiveRecord::Schema.define(version: 20180225152708) do
 
   create_table "makes", force: :cascade do |t|
     t.string "manufacturer"
@@ -28,6 +28,21 @@ ActiveRecord::Schema.define(version: 20180225025717) do
     t.integer "year"
     t.index ["make_id"], name: "index_models_on_make_id"
     t.index ["vehicle_id"], name: "index_models_on_vehicle_id"
+  end
+
+  create_table "models_options", id: false, force: :cascade do |t|
+    t.integer "model_id", null: false
+    t.integer "option_id", null: false
+    t.index ["model_id", "option_id"], name: "index_models_options_on_model_id_and_option_id"
+    t.index ["option_id", "model_id"], name: "index_models_options_on_option_id_and_model_id"
+  end
+
+  create_table "options", force: :cascade do |t|
+    t.float "cost"
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "vehicles", force: :cascade do |t|
