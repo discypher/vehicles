@@ -23,7 +23,6 @@ module Api::V1
     swagger_api :create do
       summary "Creates a new Model"
       notes "This endpoint adds a single new Model."
-      param :form, "model[vehicle_id]", :integer, :required, "Kind of Vehicle"
       param :form, "model[make_id]", :integer, :required, "Manufacturer of Model"
       param :form, "model[name]", :string, :required, "Name of Model"
       param :form, "model[base_cost]", :float, :required, "Base Cost of Model"
@@ -36,7 +35,6 @@ module Api::V1
       summary "Update a Model's Attributes."
       notes "This allows you to change the attributes of a Model."
       param :path, :id, :integer, :required, "Model ID"
-      param :form, "model[vehicle_id]", :integer, :required, "Kind of Vehicle"
       param :form, "model[make_id]", :integer, :required, "Manufacturer of Model"
       param :form, "model[name]", :string, :required, "Name of Model"
       param :form, "model[base_cost]", :float, :required, "Base Cost of Model"

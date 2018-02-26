@@ -3,7 +3,7 @@ module Api::V1
     before_action :set_option, only: [:show, :update, :destroy]
 
     #Swagger Docs
-    swagger_controller :options, "Vehicle Management"
+    swagger_controller :options, "Options Management"
 
     swagger_api :index do
       summary "Fetches all Options."

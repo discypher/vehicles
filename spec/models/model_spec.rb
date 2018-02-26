@@ -1,21 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Model, type: :model do
-  it { is_expected.to respond_to :vehicle }
   it { is_expected.to respond_to :make }
   it { is_expected.to respond_to :base_cost }
   it { is_expected.to respond_to :name }
   it { is_expected.to respond_to :year }
   it { is_expected.to respond_to :options }
-
-  context 'vehicles' do
-    let(:model) { build :model }
-
-    it 'should not be nil' do
-      model.vehicle = nil
-      expect(model).not_to be_valid
-    end
-  end
 
   context 'make' do
     let(:model) { build :model }

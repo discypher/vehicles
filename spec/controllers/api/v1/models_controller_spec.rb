@@ -28,11 +28,9 @@ RSpec.describe Api::V1::ModelsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Model. As you add validations to Model, be sure to
   # adjust the attributes here as well.
-  let!(:car) { create :car }
   let!(:make) { create :make }
   let!(:valid_attributes) {
     {
-      vehicle: car,
       make: make,
       base_cost: 10_000.00,
       name: 'Cool Ride',
@@ -42,7 +40,6 @@ RSpec.describe Api::V1::ModelsController, type: :controller do
 
   let(:invalid_attributes) {
     {
-      vehicle: nil,
       make: nil,
       base_cost: nil,
       name: nil,
