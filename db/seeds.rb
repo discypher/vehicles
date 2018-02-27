@@ -44,3 +44,30 @@ model2.options << options[0]
 model2.options << options[2]
 model2.options << options[4]
 model2.options << options[6]
+
+vehicle1 = Vehicle.create(
+  make_id: makes.first.id,
+  model_id: model1.id,
+  owner: "Joe Schmoe",
+  miles: 100_000,
+  condition: 'Like New',
+  vin: '1234asdf4321fdsa'
+)
+
+vehicle1.options << options[1]
+vehicle1.options << options[3]
+vehicle1.options << options[6]
+
+
+vehicle2 = Vehicle.create(
+  make_id: makes.second.id,
+  model_id: model2.id,
+  owner: "Jim Schim",
+  miles: 300_000,
+  condition: 'Poor',
+  vin: '2234asdf4321fdsa'
+)
+
+vehicle2.options << options[0]
+vehicle2.options << options[2]
+vehicle2.options << options[6]

@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(version: 20180226033612) do
   end
 
   create_table "models", force: :cascade do |t|
-    t.integer "vehicle_id"
     t.integer "make_id"
     t.string "name"
     t.float "base_cost"
@@ -27,7 +26,6 @@ ActiveRecord::Schema.define(version: 20180226033612) do
     t.datetime "updated_at", null: false
     t.integer "year"
     t.index ["make_id"], name: "index_models_on_make_id"
-    t.index ["vehicle_id"], name: "index_models_on_vehicle_id"
   end
 
   create_table "models_options", id: false, force: :cascade do |t|
