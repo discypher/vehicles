@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       end
       resources :makes do
         resources :models, only: :index
+        resources :vehicles, only: :index
       end
     end
   end
