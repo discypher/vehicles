@@ -7,7 +7,7 @@ Built with Ruby 2.4.1
 ### Setup
 
 ```
-git clone --recurse-submodules git@github.com:discypher/vehicles.git
+git clone git@github.com:discypher/vehicles.git
 
 bundle install
 rails db:migrate
@@ -24,19 +24,16 @@ rails db:seed
 
 ### View Documentation
 
-```
-bundle exec rails server
-```
-Then point your browser to http://127.0.0.1:3000/docs
+[API Docs](https://github.com/discypher/vehicles/wiki/API-Documentation)
 
 
 ### Notes:
 
-Currently there are some issues with Rails 5 and the swagger-docs gem.
-Because of this, I have manually updated the nested routes that are
-not automatically generated due to these issues. Switching to a different
-documentation tool, or a Swagger documentation gem that has better support
-is the long term solution.
+This application uses and implementation of the JSONAPI specification.
+
+Read more about the specification at [jsonapi.org](http://jsonapi.org)
+
+Learn more about the JSONAPI-Resources gem at [jsonapi-resources.com](http://jsonapi-resources.com)
 
 
 There is a lot of functionality missing from this application currently. It
