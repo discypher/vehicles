@@ -29,7 +29,7 @@ rails db:seed
 
 ### Notes:
 
-This application uses and implementation of the JSONAPI specification.
+This application uses an implementation of the JSONAPI specification.
 
 Read more about the specification at [jsonapi.org](http://jsonapi.org)
 
