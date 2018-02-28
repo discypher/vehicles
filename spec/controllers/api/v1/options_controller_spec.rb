@@ -28,6 +28,7 @@ RSpec.describe Api::V1::OptionsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Option. As you add validations to Option, be sure to
   # adjust the attributes here as well.
+  let(:option) { create :option }
   let(:valid_attributes) {
     attributes_for(:option)
   }
@@ -40,13 +41,71 @@ RSpec.describe Api::V1::OptionsController, type: :controller do
     }
   }
 
+  let(:valid_post_data) {
+    {
+      "data"=>{
+        "type"=>"options",
+        "attributes"=>{
+          "cost"=>100,
+          "name"=>"Heated Seats",
+          "description"=>"Warm butt!"
+        }
+      }
+    }
+  }
+
+  let(:invalid_post_data) {
+    {
+      "data"=>{
+        "type"=>"options",
+        "attributes"=>{
+          "cost"=>nil,
+          "name"=>"Heated Seats",
+          "description"=>"Warm butt!"
+        }
+      }
+    }
+  }
+
+  let(:valid_patch_data) {
+    {
+      "id"=>option.id,
+      "data"=>{
+        "id"=>option.id,
+        "type"=>"options",
+        "attributes"=>{
+          "cost"=>500,
+          "name"=>"Heated Seats",
+          "description"=>"Warm butt!"
+        }
+      }
+    }
+  }
+
+  let(:invalid_patch_data) {
+    {
+      "id"=>option.id,
+      "data"=>{
+        "id"=>option.id,
+        "type"=>"options",
+        "attributes"=>{
+          "cost"=>nil,
+          "name"=>"Heated Seats",
+          "description"=>"Warm butt!"
+        }
+      }
+    }
+  }
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # OptionsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
+  let(:valid_headers) { {'Content-Type' => 'application/vnd.api+json'} }
 
   describe "GET #index" do
     it "returns a success response" do
+      request.headers.merge! valid_headers
       Option.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(response).to be_success
@@ -55,6 +114,7 @@ RSpec.describe Api::V1::OptionsController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
+      request.headers.merge! valid_headers
       option = Option.create! valid_attributes
       get :show, params: {id: option.to_param}, session: valid_session
       expect(response).to be_success
@@ -64,65 +124,63 @@ RSpec.describe Api::V1::OptionsController, type: :controller do
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Option" do
+        request.headers.merge! valid_headers
         expect {
-          post :create, params: {option: valid_attributes}, session: valid_session
+          post :create, params: valid_post_data, session: valid_session
         }.to change(Option, :count).by(1)
       end
 
       it "renders a JSON response with the new option" do
 
-        post :create, params: {option: valid_attributes}, session: valid_session
+        request.headers.merge! valid_headers
+        post :create, params: valid_post_data, session: valid_session
         expect(response).to have_http_status(:created)
-        expect(response.content_type).to eq('application/json')
-        expect(response.location).to eq(v1_option_url(Option.last))
+        expect(response.content_type).to eq('application/vnd.api+json')
+        expect(response.location).to eq(api_v1_option_url(Option.last))
       end
     end
 
     context "with invalid params" do
       it "renders a JSON response with errors for the new option" do
 
-        post :create, params: {option: invalid_attributes}, session: valid_session
+        request.headers.merge! valid_headers
+        post :create, params: invalid_post_data, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq('application/json')
+        expect(response.content_type).to eq('application/vnd.api+json')
       end
     end
   end
 
-  describe "PUT #update" do
+  describe "PATCH #update" do
     context "with valid params" do
-      let(:new_attributes) {
-        {name: 'Another option'}
-      }
-
       it "updates the requested option" do
-        option = Option.create! valid_attributes
-        put :update, params: {id: option.to_param, option: new_attributes}, session: valid_session
+        request.headers.merge! valid_headers
+        patch :update, params: valid_patch_data, session: valid_session
         option.reload
-        expect(option.name).to eq 'Another option'
+        expect(option.name).to eq 'Heated Seats'
       end
 
       it "renders a JSON response with the option" do
-        option = Option.create! valid_attributes
-
-        put :update, params: {id: option.to_param, option: valid_attributes}, session: valid_session
+        request.headers.merge! valid_headers
+        patch :update, params: valid_patch_data, session: valid_session
         expect(response).to have_http_status(:ok)
-        expect(response.content_type).to eq('application/json')
+        expect(response.content_type).to eq('application/vnd.api+json')
       end
     end
 
     context "with invalid params" do
       it "renders a JSON response with errors for the option" do
-        option = Option.create! valid_attributes
-
-        put :update, params: {id: option.to_param, option: invalid_attributes}, session: valid_session
+        request.headers.merge! valid_headers
+        patch :update, params: invalid_patch_data, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq('application/json')
+        expect(response.content_type).to eq('application/vnd.api+json')
       end
     end
   end
 
   describe "DELETE #destroy" do
     it "destroys the requested option" do
+      request.headers.merge! valid_headers
       option = Option.create! valid_attributes
       expect {
         delete :destroy, params: {id: option.to_param}, session: valid_session

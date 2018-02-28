@@ -28,21 +28,75 @@ RSpec.describe Api::V1::MakesController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Make. As you add validations to Make, be sure to
   # adjust the attributes here as well.
+  let!(:make) { create :make }
+
   let(:valid_attributes) {
-    { manufacturer: 'Toyota' }
+    {
+      manufacturer: "Tesla"
+    }
+  }
+
+  let(:valid_post_data) {
+    {
+      data: {
+        type: "makes",
+        attributes: {
+          manufacturer: "Tesla Motors"
+        }
+      }
+    }
+  }
+
+  let(:valid_patch_data) {
+    {
+      id: make.id,
+      data: {
+        id: make.id,
+        type: "makes",
+        attributes: {
+          manufacturer: "Ford Motor Company"
+        }
+      }
+    }
+  }
+
+  let(:invalid_post_data) {
+    {
+      data: {
+        type: "makes",
+        attributes: {
+          manufacturer: nil
+        }
+      }
+    }
+  }
+
+  let(:invalid_patch_data) {
+    {
+      id: make.id,
+      data: {
+        id: make.id,
+        type: "makes",
+        attributes: {
+          manufacturer: nil
+        }
+      }
+    }
   }
 
   let(:invalid_attributes) {
     { manufacturer: nil }
   }
 
-  # This should return the minimal set of values that should be in the session
+# This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # MakesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
+  let(:valid_headers) { {'Content-Type' => 'application/vnd.api+json'} }
 
   describe "GET #index" do
     it "returns a success response" do
+      request.headers.merge! valid_headers
       Make.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(response).to be_success
@@ -51,6 +105,7 @@ RSpec.describe Api::V1::MakesController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
+      request.headers.merge! valid_headers
       make = Make.create! valid_attributes
       get :show, params: {id: make.to_param}, session: valid_session
       expect(response).to be_success
@@ -60,65 +115,61 @@ RSpec.describe Api::V1::MakesController, type: :controller do
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Make" do
+        request.headers.merge! valid_headers
         expect {
-          post :create, params: {make: valid_attributes}, session: valid_session
+          post :create, params: valid_post_data, session: valid_session
         }.to change(Make, :count).by(1)
       end
 
       it "renders a JSON response with the new make" do
-
-        post :create, params: {make: valid_attributes}, session: valid_session
+        request.headers.merge! valid_headers
+        post :create, params: valid_post_data, session: valid_session
         expect(response).to have_http_status(:created)
-        expect(response.content_type).to eq('application/json')
-        expect(response.location).to eq(v1_make_url(Make.last))
+        expect(response.content_type).to eq('application/vnd.api+json')
+        expect(response.location).to eq(api_v1_make_url(Make.last))
       end
     end
 
     context "with invalid params" do
       it "renders a JSON response with errors for the new make" do
-
-        post :create, params: {make: invalid_attributes}, session: valid_session
+        request.headers.merge! valid_headers
+        post :create, params: invalid_post_data, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq('application/json')
+        expect(response.content_type).to eq('application/vnd.api+json')
       end
     end
   end
 
-  describe "PUT #update" do
+  describe "PATCH #update" do
     context "with valid params" do
-      let(:new_attributes) {
-        { manufacturer: 'Tesla' }
-      }
-
       it "updates the requested make" do
-        make = Make.create! valid_attributes
-        put :update, params: {id: make.to_param, make: new_attributes}, session: valid_session
+        request.headers.merge! valid_headers
+        patch :update, params: valid_patch_data, session: valid_session
         make.reload
-        expect(make.manufacturer).to eq 'Tesla'
+        expect(make.manufacturer).to eq 'Ford Motor Company'
       end
 
       it "renders a JSON response with the make" do
-        make = Make.create! valid_attributes
-
-        put :update, params: {id: make.to_param, make: valid_attributes}, session: valid_session
+        request.headers.merge! valid_headers
+        patch :update, params: valid_patch_data, session: valid_session
         expect(response).to have_http_status(:ok)
-        expect(response.content_type).to eq('application/json')
+        expect(response.content_type).to eq('application/vnd.api+json')
       end
     end
 
     context "with invalid params" do
       it "renders a JSON response with errors for the make" do
-        make = Make.create! valid_attributes
-
-        put :update, params: {id: make.to_param, make: invalid_attributes}, session: valid_session
+        request.headers.merge! valid_headers
+        patch :update, params: invalid_patch_data, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq('application/json')
+        expect(response.content_type).to eq('application/vnd.api+json')
       end
     end
   end
 
   describe "DELETE #destroy" do
     it "destroys the requested make" do
+      request.headers.merge! valid_headers
       make = Make.create! valid_attributes
       expect {
         delete :destroy, params: {id: make.to_param}, session: valid_session

@@ -29,6 +29,7 @@ RSpec.describe Api::V1::ModelsController, type: :controller do
   # Model. As you add validations to Model, be sure to
   # adjust the attributes here as well.
   let!(:make) { create :make }
+  let!(:model) { create :model }
   let!(:valid_attributes) {
     {
       make: make,
@@ -47,33 +48,112 @@ RSpec.describe Api::V1::ModelsController, type: :controller do
     }
   }
 
+  let(:valid_post_data) {
+    {
+      "data"=>{
+        "type"=>"models",
+        "attributes"=>{
+          "name"=>"Model S",
+          "base-cost"=>96000,
+          "year"=>2015
+        },
+        "relationships"=>{
+          "make"=>{
+            "data"=>{"type"=>"makes", "id"=>make.id}
+          }
+        }
+      }
+    }
+  }
+
+  let(:invalid_post_data) {
+    {
+      "data"=>{
+        "type"=>"models",
+        "attributes"=>{
+          "name"=> nil,
+          "base-cost"=>96000,
+          "year"=>2015
+        },
+        "relationships"=>{
+          "make"=>{
+            "data"=>{"type"=>"makes", "id"=>make.id}
+          }
+        }
+      }
+    }
+  }
+
+  let(:valid_patch_data) {
+    {
+      "id"=> model.id,
+      "data"=>{
+        "id"=> model.id,
+        "type"=>"models",
+        "attributes"=>{
+          "name"=> "Roadster",
+          "base-cost"=>96000,
+          "year"=>2015
+        },
+        "relationships"=>{
+          "make"=>{
+            "data"=>{"type"=>"makes", "id"=>make.id}
+          }
+        }
+      }
+    }
+  }
+
+  let(:invalid_patch_data) {
+    {
+      "id"=> model.id,
+      "data"=>{
+        "id"=>model.id,
+        "type"=>"models",
+        "attributes"=>{
+          "name"=> nil,
+          "base-cost"=>96000,
+          "year"=>2015
+        },
+        "relationships"=>{
+          "make"=>{
+            "data"=>{"type"=>"makes", "id"=>make.id}
+          }
+        }
+      }
+    }
+  }
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # ModelsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
+  let(:valid_headers) { {'Content-Type' => 'application/vnd.api+json'} }
 
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Model" do
+        request.headers.merge! valid_headers
         expect {
-          post :create, params: { model: build_attributes(:model)}, session: valid_session
+          post :create, params: valid_post_data, session: valid_session
         }.to change(Model, :count).by(1)
       end
 
       it "renders a JSON response with the new model" do
-        post :create, params: { model: build_attributes(:model) }, session: valid_session
+        request.headers.merge! valid_headers
+        post :create, params: valid_post_data, session: valid_session
         expect(response).to have_http_status(:created)
-        expect(response.content_type).to eq('application/json')
-        expect(response.location).to eq(v1_model_url(Model.last))
+        expect(response.content_type).to eq('application/vnd.api+json')
+        expect(response.location).to eq(api_v1_model_url(Model.last))
       end
     end
 
     context "with invalid params" do
       it "renders a JSON response with errors for the new model" do
-
-        post :create, params: {model: invalid_attributes}, session: valid_session
+        request.headers.merge! valid_headers
+        post :create, params: invalid_post_data, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq('application/json')
+        expect(response.content_type).to eq('application/vnd.api+json')
       end
     end
   end
@@ -81,6 +161,7 @@ RSpec.describe Api::V1::ModelsController, type: :controller do
   describe "GET #index" do
     it "returns a success response" do
       Model.create! valid_attributes
+      request.headers.merge! valid_headers
       get :index, params: {}, session: valid_session
       expect(response).to be_success
     end
@@ -88,6 +169,7 @@ RSpec.describe Api::V1::ModelsController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
+      request.headers.merge! valid_headers
       model = Model.create! valid_attributes
       get :show, params: {id: model.to_param}, session: valid_session
       expect(response).to be_success
@@ -97,39 +179,34 @@ RSpec.describe Api::V1::ModelsController, type: :controller do
 
   describe "PUT #update" do
     context "with valid params" do
-      let(:new_attributes) {
-        { name: "Frank" }
-      }
-
       it "updates the requested model" do
-        model = Model.create! valid_attributes
-        put :update, params: {id: model.to_param, model: new_attributes}, session: valid_session
+        request.headers.merge! valid_headers
+        patch :update, params: valid_patch_data, session: valid_session
         model.reload
-        expect(model.name).to eq "Frank"
+        expect(model.name).to eq "Roadster"
       end
 
       it "renders a JSON response with the model" do
-        model = Model.create! valid_attributes
-
-        put :update, params: {id: model.to_param, model: valid_attributes}, session: valid_session
+        request.headers.merge! valid_headers
+        patch :update, params: valid_patch_data, session: valid_session
         expect(response).to have_http_status(:ok)
-        expect(response.content_type).to eq('application/json')
+        expect(response.content_type).to eq('application/vnd.api+json')
       end
     end
 
     context "with invalid params" do
       it "renders a JSON response with errors for the model" do
-        model = Model.create! valid_attributes
-
-        put :update, params: {id: model.to_param, model: invalid_attributes}, session: valid_session
+        request.headers.merge! valid_headers
+        patch :update, params: invalid_patch_data, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq('application/json')
+        expect(response.content_type).to eq('application/vnd.api+json')
       end
     end
   end
 
   describe "DELETE #destroy" do
     it "destroys the requested model" do
+      request.headers.merge! valid_headers
       model = Model.create! valid_attributes
       expect {
         delete :destroy, params: {id: model.to_param}, session: valid_session
